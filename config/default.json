@@ -1,0 +1,12 @@
+{
+  "host": "localhost",
+  "port": 3000,
+  "pg": {
+    "max": 20,
+    "min": 5,
+    "user": "postgres",
+    "password": "postgres",
+    "database": "dev",
+    "host": "localhost"
+  }
+}
