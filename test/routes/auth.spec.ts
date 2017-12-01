@@ -1,22 +1,61 @@
 import {} from 'mocha';
 import { expect } from 'chai';
-import fetch from 'node-fetch';
 import * as uuid from 'uuid';
-
-const login = (username: string, password: string) => {
-  return fetch('http://localhost:3000/auth/login', {
-    method: 'POST',
-    body: JSON.stringify({
-      username,
-      password,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-};
+import { login } from '../auth_helper';
+import fetch from 'node-fetch';
+import AuthLoginResponse from '../../src/model/rest/auth_login_response';
 
 describe('Auth Routes', () => {
+  describe('get /', () => {
+    it('returns an error if the current user is not logged in', (done) => {
+      fetch('http://localhost:3000/auth')
+        .then(response => {
+          expect(response.status).to.equal(401);
+
+          return response.json();
+        })
+        .then(json => {
+          console.log(json);
+
+          done();
+        })
+        .catch(err => done(err));
+    });
+
+    it('returns the current user if the token supplied is valid', (done) => {
+      let token = '';
+      login('admin@admin.com', 'password')
+        .then(response => {
+          expect(response.status).to.equal(200);
+
+          return response.json();
+        })
+        .then((json: AuthLoginResponse) => {
+          expect(json.token).to.not.be.undefined;
+          token = json.token;
+
+          return fetch('http://localhost:3000/auth', {
+            method: 'GET',
+            headers: {
+              'Bearer': token,
+            }
+          });
+        })
+        .then(response => {
+          expect(response.status).to.equal(200);
+
+          return response.json();
+        })
+        .then(json => {
+          expect(json.username).to.equal('admin@admin.com');
+          expect(json.password).to.be.undefined;
+
+          done();
+        })
+        .catch(err => done(err));
+    });
+  });
+
   describe('post /login', () => {
     it('returns the JWT when the username and password are valid', (done) => {
       login('admin@admin.com', 'password')

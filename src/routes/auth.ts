@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import ErrorResponse from '../model/rest/error_response';
 import { AppUser } from '../model/app_user';
 import UserService from '../service/user_service';
-import CryptoService from '../service/crypto_service';
+import CryptoService, { checkRole } from '../service/crypto_service';
 import * as jwt from 'jsonwebtoken';
 import * as config from 'config';
 import AuthLoginResponse from '../model/rest/auth_login_response';
@@ -11,8 +11,8 @@ const userService: UserService = new UserService();
 const crypto: CryptoService = new CryptoService();
 
 const setup = (router: Router) => {
-  router.get('/auth', (req: Request, res: Response) => {
-
+  router.get('/auth', checkRole('user'), (req: Request, res: Response) => {
+    return res.status(200).json(req['user']);
   });
 
   router.post('/auth/login', (req: Request, res: Response) => {

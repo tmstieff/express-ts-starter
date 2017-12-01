@@ -60,5 +60,6 @@ CREATE INDEX post_updated_user_id_index ON post (updated_user_id);
 CREATE UNIQUE INDEX role_id_uindex ON role (id);
 CREATE UNIQUE INDEX role_role_uindex ON role (role);
 ALTER TABLE token ADD FOREIGN KEY (user_id) REFERENCES app_user (id);
-ALTER TABLE user_role ADD FOREIGN KEY (app_user_id) REFERENCES app_user (id);
+ALTER TABLE user_role ADD FOREIGN KEY (user_id) REFERENCES app_user (id);
 ALTER TABLE user_role ADD FOREIGN KEY (role_id) REFERENCES role (id);
+ALTER SEQUENCE app_user_id_seq RESTART WITH 100;
