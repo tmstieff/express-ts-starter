@@ -16,8 +16,7 @@ var readFile = function (file) {
 };
 var seedDatabase = function () {
     var pool = new pg.Pool(config.get('pg'));
-    return pool.query('CREATE DATABASE ' + config.get('pg.database'))
-        .then(function () { return readFile('bootstrap/tables.sql'); })
+    return readFile('bootstrap/tables.sql')
         .then(function (data) { return pool.query(data); })
         .then(function () { return readFile('bootstrap/seed.sql'); })
         .then(function (data) { return pool.query(data); })
