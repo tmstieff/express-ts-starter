@@ -4,7 +4,8 @@ node_js:
   - "7.8.0"
 script:
   - docker pull postgres
-  - docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
+  - docker ps
+  - # docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
   - sleep 10
   - npm install -g typescript ts-node
   - npm install
