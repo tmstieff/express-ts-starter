@@ -8,5 +8,9 @@
     "password": "postgres",
     "database": "dev",
     "host": "localhost"
+  },
+  "jwt": {
+    "public": "changeme",
+    "secret": "changeme2"
   }
 }

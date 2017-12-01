@@ -8,6 +8,7 @@ import * as config from 'config';
 
 import index from './routes/index';
 import users from './routes/users';
+import auth from './routes/auth';
 import * as http from 'http';
 
 const app = express();
@@ -26,8 +27,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Setup routes
-const indexRoutes = index(appRouter);
-const userRoutes = users(appRouter);
+index(appRouter);
+users(appRouter);
+auth(appRouter);
 
 // Use routes
 app.use('/', appRouter);

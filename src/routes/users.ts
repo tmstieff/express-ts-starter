@@ -13,7 +13,7 @@ const setup = (router: Router) => {
   });
 
   router.post('/users', (req: Request, res: Response) => {
-    const user = req.body;
+    const user: AppUser = req.body as AppUser;
 
     return userService.createUser(user)
       .then((newUser: AppUser) => res.status(200).json(newUser));
