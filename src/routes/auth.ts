@@ -24,10 +24,16 @@ const setup = (router: Router) => {
     }
 
     let appUser: AppUser;
+    let responded: boolean = false;
     userService.getUserByUsername(username.toLowerCase())
       .then((user: AppUser) => {
         if (!user) {
-          return res.status(401).json({ error: 'Invalid username or password supplied.'} as ErrorResponse);
+          responded = true;
+          res.status(401).json({ error: 'Invalid username or password supplied.'} as ErrorResponse);
+        }
+
+        if (responded) {
+          return null;
         }
 
         appUser = user;
@@ -35,8 +41,13 @@ const setup = (router: Router) => {
         return crypto.validatePassword(password, user.password);
       })
       .then((areSame: boolean) => {
-        if (!areSame) {
-          return res.status(401).json({ error: 'Invalid username or password supplied.'} as ErrorResponse);
+        if (!areSame && !responded) {
+          responded = true;
+          res.status(401).json({ error: 'Invalid username or password supplied.'} as ErrorResponse);
+        }
+
+        if (responded) {
+          return null;
         }
 
         delete appUser.password;
@@ -44,6 +55,10 @@ const setup = (router: Router) => {
         return userService.getRoles(appUser.id);
       })
       .then((roles: string[]) => {
+        if (responded) {
+          return null;
+        }
+
         appUser.roles = roles;
 
         const userPayload = {
