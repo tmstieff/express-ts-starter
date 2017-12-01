@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "ts-node ./src/app.js",
+    "start": "ts-node ./src/app.ts",
     "test": "mocha --timeout 10000 --compilers ts:ts-node/register \"./{,!(node_modules|e2e)/**/}*.spec.ts\""
   },
   "dependencies": {
