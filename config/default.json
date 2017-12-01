@@ -7,7 +7,8 @@
     "user": "postgres",
     "password": "postgres",
     "database": "dev",
-    "host": "localhost"
+    "host": "localhost",
+    "port": 5432
   },
   "jwt": {
     "public": "changeme",
