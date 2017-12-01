@@ -67,6 +67,7 @@ const setup = (router: Router) => {
           roles: appUser.roles,
           first_name: appUser.first_name,
           last_name: appUser.last_name,
+          activated: appUser.activated,
         };
 
         jwt.sign(userPayload, config.get('jwt.secret'), {}, (error: Error, token: string) => {

@@ -3,12 +3,18 @@ import Database from '../service/database';
 import UserService from '../service/user_service';
 import { AppUser } from '../model/app_user';
 
-const db = Database.instance();
 const userService = new UserService();
 
 const setup = (router: Router) => {
   router.get('/users', (req: Request, res: Response) => {
-    return userService.getUsers()
+    let limit = req.query.limit || 10;
+    const offset = req.query.offset || 0;
+
+    if (limit > 20) {
+      limit = 20;
+    }
+
+    return userService.getUsers(limit, offset)
       .then((users: AppUser[]) => res.status(200).json(users));
   });
 

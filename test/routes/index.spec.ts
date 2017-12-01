@@ -2,7 +2,7 @@ import {} from 'mocha';
 import { expect } from 'chai';
 import fetch from 'node-fetch';
 
-describe('Index Routes', () => {
+describe('/ Index Routes', () => {
   describe('Get /', () => {
     it('fetches the index message', (done) => {
       fetch('http://localhost:3000/', {
