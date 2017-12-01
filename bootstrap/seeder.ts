@@ -18,7 +18,8 @@ const readFile = (file: string): Promise<string> => {
 const seedDatabase = () => {
   const pool = new pg.Pool(config.get('pg'));
 
-  return readFile('bootstrap/tables.sql')
+  return pool.query('CREATE DATABASE ' + config.get('pg.database'))
+    .then(() => readFile('bootstrap/tables.sql')
     .then(data => pool.query(data))
     .then(() => readFile('bootstrap/seed.sql'))
     .then(data => pool.query(data))
