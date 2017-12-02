@@ -1,4 +1,6 @@
 # express-ts-starter
+<a href="https://travis-ci.org/tmstieff/express-ts-starter"><img src="https://travis-ci.org/tmstieff/express-ts-starter.svg?branch=master" alt="Build Status Badge" /></a>
+
 A NodeJS starter kit built on TypeScript.
 
 ## Features
