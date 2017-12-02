@@ -1,5 +1,6 @@
 {
   "pg": {
-    "port": 5433
+    "port": 5433,
+    "database": "postgres"
   }
 }
