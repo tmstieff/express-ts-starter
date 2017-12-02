@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "ts-node ./src/app.ts",
-    "test": "mocha --timeout 10000 --compilers ts:ts-node/register \"./{,!(node_modules|e2e)/**/}*.spec.ts\""
+    "test": "nyc --reporter=html --reporter=text mocha --timeout 1000 --compilers ts:ts-node/register \"./test/*/**.spec.ts\""
   },
   "dependencies": {
     "bcrypt": "latest",
@@ -30,6 +30,7 @@
     "chai": "^4.1.2",
     "mocha": "^4.0.1",
     "node-fetch": "^1.7.3",
+    "nyc": "^11.3.0",
     "ts-node": "^3.3.0",
     "typescript": "^2.6.2",
     "uuid": "^3.1.0",

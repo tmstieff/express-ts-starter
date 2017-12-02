@@ -3,3 +3,5 @@ src/**/*.js
 test/**/*.js
 bootstra/**/*.js
 node_modules/
+.nyc_output/
+coverage/
