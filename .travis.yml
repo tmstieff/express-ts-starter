@@ -9,7 +9,7 @@ script:
   - sleep 10
   - npm install -g typescript ts-node
   - npm install
-  - NODE_ENV=test && ts-node bootstrap/seeder.ts
-  - NODE_ENV=test && ts-node src/app.ts &
+  - export NODE_ENV=test && ts-node bootstrap/seeder.ts
+  - export NODE_ENV=test && ts-node src/app.ts &
   - sleep 5
   - npm test
