@@ -18,19 +18,25 @@ class UserService {
   /**
    * Retrieve a user by there user ID
    * @param {number} id
+   * @param {boolean} sanitize - Remove private user fields?
    * @return {Promise<AppUser | null>}
    */
-  public getUserById(id: number): Promise<AppUser | null> {
+  public getUserById(id: number, sanitize = true): Promise<AppUser | null> {
     return this.db.query(USER_BY_ID, [id])
       .then((results: QueryResult) => {
         if (results.rowCount === 0) {
           return null;
         }
 
-        return results.rows[0] as AppUser;
+        return (sanitize ? UserService.sanitize(results.rows[0]) : results.rows[0]);
       })
   }
 
+  /**
+   * Returns the roles array for a given user
+   * @param {number} id
+   * @return {Promise<string[]>}
+   */
   public getRoles(id: number): Promise<string[]> {
     return this.db.query(ROLES_BY_USER_ID, [id])
       .then((roles: QueryResult) => {
@@ -41,16 +47,17 @@ class UserService {
   /**
    * Retrieve a user by their username
    * @param {string} username
+   * @param {boolean} sanitize - Remove private user fields?
    * @return {Promise<AppUser | null>}
    */
-  public getUserByUsername(username: string): Promise<AppUser | null> {
+  public getUserByUsername(username: string, sanitize = true): Promise<AppUser | null> {
     return this.db.query(USER_BY_USERNAME, [username])
       .then((results: QueryResult) => {
         if (results.rowCount === 0) {
           return null;
         }
 
-        return results.rows[0] as AppUser;
+        return (sanitize ? UserService.sanitize(results.rows[0]) : results.rows[0]);
       })
   }
 
@@ -58,12 +65,14 @@ class UserService {
    * Get all of {@limit} users sorted by ID and offset by {@offset}
    * @param {number} limit
    * @param {number} offset
+   * @param {boolean} sanitize - Remove private user fields?
    * @return {Promise<AppUser[]>}
    */
-  public getUsers(limit = 10, offset = 0): Promise<AppUser[]> {
+  public getUsers(limit = 10, offset = 0, sanitize = true): Promise<AppUser[]> {
     return this.db.query(USERS_LIMIT, [limit, offset])
       .then((results: pg.QueryResult) => {
-        return results.rows as AppUser[];
+        return results.rows.map(user =>
+          (sanitize ? UserService.sanitize(user) : user));
       });
   }
 
@@ -80,6 +89,20 @@ class UserService {
 
         return user;
       });
+  }
+
+  /**
+   * Returns a publicly safe user instance with private fields removed
+   * @param {AppUser} user
+   */
+  private static sanitize(user: AppUser): AppUser {
+    const sanitizedUser = user;
+
+    delete sanitizedUser.password;
+    delete sanitizedUser.activated;
+    delete sanitizedUser.first_login;
+
+    return sanitizedUser;
   }
 }
 

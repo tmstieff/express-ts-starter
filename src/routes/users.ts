@@ -24,6 +24,13 @@ const setup = (router: Router) => {
     return userService.createUser(user)
       .then((newUser: AppUser) => res.status(200).json(newUser));
   });
+
+  router.get('/users/:id', (req: Request, res: Response) => {
+    const id: number = req.params.id;
+
+    return userService.getUserById(id)
+      .then((user: AppUser) => res.status(200).json(user));
+  });
 };
 
 export default setup;

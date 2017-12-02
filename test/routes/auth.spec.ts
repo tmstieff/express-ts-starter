@@ -5,7 +5,7 @@ import { login } from '../auth_helper';
 import fetch from 'node-fetch';
 import AuthLoginResponse from '../../src/model/rest/auth_login_response';
 
-describe('/auth Routes', () => {
+describe('/auth routes', () => {
   describe('get /', () => {
     it('returns an error if the current user is not logged in', (done) => {
       fetch('http://localhost:3000/auth')

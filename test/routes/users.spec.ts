@@ -5,7 +5,7 @@ import fetch from 'node-fetch';
 /**
  * This test relies on the test_seed.sql data in the bootstrap folder
  */
-describe('/users Routes', () => {
+describe('/users routes', () => {
   describe('Get /', () => {
     it('fetches the first 10 users by default', (done) => {
       fetch('http://localhost:3000/users', {

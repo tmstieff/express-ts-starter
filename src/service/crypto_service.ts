@@ -4,6 +4,9 @@ import * as config from 'config';
 import { Promise } from 'es6-promise';
 import { NextFunction } from 'express';
 
+/**
+ * The CryptoService is responsible for hashing and comparing passwords
+ */
 export default class CryptoService {
   /**
    * Salts and hashes a plaintext password
